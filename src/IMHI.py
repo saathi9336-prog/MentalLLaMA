@@ -52,9 +52,14 @@ def generate_response(model, tokenizer, test_data, device, batch_size):
     
 
     for dataset_name in test_data.keys():
-        if dataset_name not in ['DR', 'dreaddit']:
+
+        if dataset_name != "dreaddit":
             continue
-        print('Generating for dataset: {}'.format(dataset_name))
+
+        print(f"Generating for dataset: {dataset_name}")
+        
+        
+        
         queries, golden = test_data[dataset_name]
         goldens[dataset_name]  = golden
         responses = []

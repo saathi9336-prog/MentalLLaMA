@@ -45,7 +45,7 @@ def load_expert_data():
             test_data[fn.split('.')[0]] = [texts, labels]
     return test_data
 
-def generate_response(model, tokenizer, test_data, device, batch_size):
+def generate_response(model, tokenizer, test_data, device, batch_size, dataset_name_arg):
     generated_text = {}
     goldens = {}
 
@@ -53,7 +53,7 @@ def generate_response(model, tokenizer, test_data, device, batch_size):
 
     for dataset_name in test_data.keys():
 
-        if dataset_name != "dreaddit":
+        if dataset_name_arg is not None and dataset_name != dataset_name_arg:
             continue
 
         print(f"Generating for dataset: {dataset_name}")
@@ -274,8 +274,9 @@ def calculate_f1(generated, goldens, output_path):
 def main(model_path: str, model_output_path: str, batch_size: int,
          test_dataset: str, rule_calculate: bool,
          llama: bool, device: str, lora: bool,
-         cuda: bool, lora_path: str):
-
+         cuda: bool, lora_path: str,
+         dataset_name: str):
+             
     bnb_config = BitsAndBytesConfig(
         load_in_4bit=True,
         bnb_4bit_quant_type="nf4",
@@ -308,7 +309,7 @@ def main(model_path: str, model_output_path: str, batch_size: int,
         test_data = load_complete_test_data()
     elif test_dataset == 'expert':
         test_data = load_expert_data()
-    generated_text, goldens = generate_response(model, tokenizer, test_data, device, batch_size)
+    generated_text, goldens = generate_response(model, tokenizer, test_data, device, batch_size,dataset_name)
     save_output(generated_text, goldens, model_output_path)
     if rule_calculate:
         calculate_f1(generated_text, goldens, model_output_path)
@@ -327,6 +328,7 @@ if __name__ == "__main__":
     parser.add_argument('--llama', action='store_true')
     parser.add_argument('--lora', action='store_true')
     parser.add_argument('--lora_path', type=str)
+    parser.add_argument('--dataset_name', type=str, default=None)
 
     args = parser.parse_args()
     args = vars(args)

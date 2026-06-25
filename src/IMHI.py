@@ -52,8 +52,8 @@ def generate_response(model, tokenizer, test_data, device, batch_size):
     
 
     for dataset_name in test_data.keys():
-        #if dataset_name not in ['DR', 'dreaddit']:
-        #    continue
+        if dataset_name not in ['DR', 'dreaddit']:
+            continue
         print('Generating for dataset: {}'.format(dataset_name))
         queries, golden = test_data[dataset_name]
         goldens[dataset_name]  = golden
@@ -73,7 +73,7 @@ def generate_response(model, tokenizer, test_data, device, batch_size):
             generate_ids = model.generate(
                 input_ids,
                 attention_mask=attention_mask,
-                max_new_tokens=256,
+                max_new_tokens=64,
                 do_sample=False
             )
             for j in range(generate_ids.shape[0]):

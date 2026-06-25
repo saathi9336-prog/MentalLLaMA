@@ -319,20 +319,27 @@ def main(model_path: str, model_output_path: str, batch_size: int,
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description='The IMHI benchmark.')
+
     parser.add_argument('--model_path', type=str, default='')
     parser.add_argument('--model_output_path', type=str)
     parser.add_argument('--cuda', action='store_true')
     parser.add_argument('--batch_size', type=int, default=24)
-    parser.add_argument('--test_dataset', type=str, choices=['IMHI', 'IMHI-completion', 'expert'])
+    parser.add_argument('--test_dataset', type=str,
+                        choices=['IMHI', 'IMHI-completion', 'expert'])
     parser.add_argument('--rule_calculate', action='store_true')
     parser.add_argument('--llama', action='store_true')
     parser.add_argument('--lora', action='store_true')
     parser.add_argument('--lora_path', type=str)
+
+    # New argument
     parser.add_argument('--dataset_name', type=str, default=None)
 
     args = parser.parse_args()
     args = vars(args)
-    device = torch.device("cuda:0" if torch.cuda.is_available() and args['cuda'] is True else "cpu")
+
+    device = torch.device(
+        "cuda:0" if torch.cuda.is_available() and args['cuda'] else "cpu"
+    )
     args['device'] = device
 
     main(**args)

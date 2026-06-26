@@ -309,6 +309,12 @@ def main(model_path: str, model_output_path: str, batch_size: int,
         test_data = load_complete_test_data()
     elif test_dataset == 'expert':
         test_data = load_expert_data()
+
+    print("✓ Model loaded")
+    print("✓ Test data loaded")
+    print("dataset_name =", dataset_name)
+    print("Datasets available:", list(test_data.keys()))
+    print("Calling generate_response...")
     generated_text, goldens = generate_response(model, tokenizer, test_data, device, batch_size,dataset_name)
     save_output(generated_text, goldens, model_output_path)
     if rule_calculate:

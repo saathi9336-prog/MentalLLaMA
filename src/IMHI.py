@@ -17,7 +17,7 @@ from sklearn.metrics import f1_score, confusion_matrix, accuracy_score, classifi
 
 def load_instruction_test_data():
     test_data = {}
-    for root, ds, fs in os.walk("../test_data/test_instruction"):
+    for root, ds, fs in os.walk("test_data/test_instruction"):
         for fn in fs:
             data = pd.read_csv(os.path.join(root, fn))
             texts = data['query'].to_list()
@@ -27,7 +27,7 @@ def load_instruction_test_data():
 
 def load_complete_test_data():
     test_data = {}
-    for root, ds, fs in os.walk("../test_data/test_complete"):
+    for root, ds, fs in os.walk("test_data/test_complete"):
         for fn in fs:
             data = pd.read_csv(os.path.join(root, fn))
             texts = data['query'].to_list()

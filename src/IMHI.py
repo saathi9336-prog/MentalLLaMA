@@ -16,15 +16,29 @@ from sklearn.metrics import f1_score, confusion_matrix, accuracy_score, classifi
     precision_recall_fscore_support, precision_score, recall_score
 
 def load_instruction_test_data():
+    import os
+    import pandas as pd
+
+    path = "../test_data/test_instruction"
+
+    print("Current working directory:", os.getcwd())
+    print("Absolute path:", os.path.abspath(path))
+    print("Path exists:", os.path.exists(path))
+
     test_data = {}
-    for root, ds, fs in os.walk("test_data/test_instruction"):
+
+    for root, ds, fs in os.walk(path):
+        print("Root =", root)
+        print("Files =", fs)
+
         for fn in fs:
             data = pd.read_csv(os.path.join(root, fn))
             texts = data['query'].to_list()
             labels = data['gpt-3.5-turbo'].to_list()
             test_data[fn.split('.')[0]] = [texts, labels]
-    return test_data
 
+    print("Loaded datasets:", test_data.keys())
+    return test_data
 def load_complete_test_data():
     test_data = {}
     for root, ds, fs in os.walk("test_data/test_complete"):

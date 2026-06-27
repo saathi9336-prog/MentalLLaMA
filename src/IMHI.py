@@ -105,15 +105,38 @@ def generate_response(model, tokenizer, test_data, device, batch_size, dataset_n
     return generated_text, goldens
 
 def save_output(generated_text, goldens, output_path):
-    if not os.path.exists("../model_output/"):
-        os.mkdir("../model_output/")
-    if not os.path.exists("../model_output/"+output_path):
-        os.mkdir("../model_output/"+output_path)
+    import os
+    import pandas as pd
+
+    # Base folder in Google Drive
+    save_dir = os.path.join(
+        "/content/drive/MyDrive/MentalLLaMA_Output",
+        output_path
+    )
+
+    # Create folders if they don't exist
+    os.makedirs(save_dir, exist_ok=True)
+
+    # Save each dataset separately
     for dataset_name in generated_text.keys():
-        output = {'goldens': goldens[dataset_name], 'generated_text': generated_text[dataset_name]}
-        output = pd.DataFrame(output, index=None)
-        output.to_csv("{}/{}/{}.csv".format('../model_output',
-                                         output_path, dataset_name), index=False, escapechar='\\')
+
+        output = pd.DataFrame({
+            "goldens": goldens[dataset_name],
+            "generated_text": generated_text[dataset_name]
+        })
+
+        file_path = os.path.join(save_dir, f"{dataset_name}.csv")
+
+        output.to_csv(
+            file_path,
+            index=False,
+            escapechar='\\'
+        )
+
+        print(f"✅ Saved: {file_path}")
+
+    print("\n🎉 All outputs saved successfully!")
+
 
 def calculate_f1(generated, goldens, output_path):
     for dataset_name in generated.keys():

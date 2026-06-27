@@ -312,9 +312,11 @@ def main(model_path: str, model_output_path: str, batch_size: int,
         model = LlamaForCausalLM.from_pretrained(
             model_path,
             quantization_config=bnb_config,
-            device_map="auto"
+            device_map="balanced",
+            torch_dtype=torch.float16,
+            low_cpu_mem_usage=True,
+            use_safetensors=False
         )
-
         tokenizer = LlamaTokenizer.from_pretrained(
             model_path,
             padding_side='left'

@@ -108,35 +108,23 @@ def save_output(generated_text, goldens, output_path):
     import os
     import pandas as pd
 
-    # Base folder in Google Drive
-    save_dir = os.path.join(
-        "/content/drive/MyDrive/MentalLLaMA_Output",
-        output_path
-    )
-
-    # Create folders if they don't exist
+    save_dir = os.path.join("/kaggle/working", output_path)
     os.makedirs(save_dir, exist_ok=True)
 
-    # Save each dataset separately
     for dataset_name in generated_text.keys():
-
         output = pd.DataFrame({
             "goldens": goldens[dataset_name],
             "generated_text": generated_text[dataset_name]
         })
 
-        file_path = os.path.join(save_dir, f"{dataset_name}.csv")
-
         output.to_csv(
-            file_path,
+            os.path.join(save_dir, f"{dataset_name}.csv"),
             index=False,
-            escapechar='\\'
+            escapechar="\\"
         )
 
-        print(f"✅ Saved: {file_path}")
-
-    print("\n🎉 All outputs saved successfully!")
-
+        print(f"Saved: {dataset_name}.csv")
+    print("✅ All outputs saved successfully.")
 
 def calculate_f1(generated, goldens, output_path):
     for dataset_name in generated.keys():

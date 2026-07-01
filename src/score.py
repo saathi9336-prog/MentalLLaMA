@@ -112,13 +112,17 @@ def BARTscore(gen_dir_name, device):
             print('Results for {} dataset: {}'.format(dname, overall))
             score_results[dname] = overall
 
-    pickle.dump(score_results,
-                open('../quality_evaluation_results/bart_score_{}.pkl'.format(gen_dir_name), 'wb+'))
+    os.makedirs("/kaggle/working/quality_evaluation_results", exist_ok=True)
+
+    pickle.dump(
+        score_results,
+        open("/kaggle/working/quality_evaluation_results/bart_score_results.pkl", "wb+")
+    )
+                
     return score_results
 
 def main(gen_dir_name: str, cuda: bool, device: str, score_method: str):
-    if not os.path.exists("../quality_evaluation_results/"):
-        os.mkdir("../quality_evaluation_results/")
+    os.makedirs("/kaggle/working/quality_evaluation_results", exist_ok=True)
 
     if score_method == 'bart_score':
         BARTscore(gen_dir_name, device)

@@ -23,7 +23,7 @@ def rouge(gen_dir_name):
             score_results[dname] = [result['rouge1'], result['rouge2'], result['rougeL']]
             print('Results for {} dataset: {}'.format(dname, score_results[dname]))
     pickle.dump(score_results,
-                open('../quality_evaluation_results/bart_score_results.pkl', 'wb+'))
+                open('../quality_evaluation_results/bart_score_{}.pkl'.format(gen_dir_name), 'wb+'))
     return score_results
 
 def bleu(gen_dir_name):

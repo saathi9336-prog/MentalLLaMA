@@ -12,7 +12,7 @@ def rouge(gen_dir_name):
     rouge = evaluate.load('rouge')
     score_results = {}
 
-    for root, ds, fs in os.walk("../model_output/{}".format(gen_dir_name)):
+    for root, ds, fs in os.walk(gen_dir_name):
         for fn in fs:
             data = pd.read_csv(os.path.join(root, fn))
             dname = fn.split('.')[0]
@@ -30,7 +30,7 @@ def bleu(gen_dir_name):
     score_results = {}
     rouge = evaluate.load('bleu')
 
-    for root, ds, fs in os.walk("../model_output/{}".format(gen_dir_name)):
+    for root, ds, fs in os.walk(gen_dir_name):
         for fn in fs:
             data = pd.read_csv(os.path.join(root, fn))
             dname = fn.split('.')[0]
@@ -49,7 +49,7 @@ def GPTScore(gen_dir_name):
     api_key = input('Your api key: ')
     score_results = {}
     results = []
-    for root, ds, fs in os.walk("../model_output/{}".format(gen_dir_name)):
+    for root, ds, fs in os.walk(gen_dir_name):
         for fn in fs:
             data = pd.read_csv(os.path.join(root, fn))
             dname = fn.split('.')[0]
@@ -69,7 +69,7 @@ def BERTScore(gen_dir_name):
     bert_score = evaluate.load('bertscore')
     model_type = input('Which BERT-based model will you use?')
 
-    for root, ds, fs in os.walk("../model_output/{}".format(gen_dir_name)):
+    for root, ds, fs in os.walk(gen_dir_name):
         for fn in fs:
             data = pd.read_csv(os.path.join(root, fn))
             dname = fn.split('.')[0]
@@ -94,7 +94,7 @@ def BARTscore(gen_dir_name, device):
     bart_scorer.load(path='bart_score.pth')
     score_results = {}
 
-    for root, ds, fs in os.walk("../model_output/{}".format(gen_dir_name)):
+    for root, ds, fs in os.walk(gen_dir_name):
         for fn in fs:
             data = pd.read_csv(os.path.join(root, fn))
             dname = fn.split('.')[0]

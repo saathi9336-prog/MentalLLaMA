@@ -6,7 +6,7 @@ import argparse
 import torch
 
 from BARTScore.bart_score import BARTScorer
-from GPTScore.gpt3_score import gpt3score
+#from GPTScore.gpt3_score import gpt3score
 
 def rouge(gen_dir_name):
     rouge = evaluate.load('rouge')

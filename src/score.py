@@ -90,8 +90,10 @@ def BERTScore(gen_dir_name):
     return score_results
 
 def BARTscore(gen_dir_name, device):
-    bart_scorer = BARTScorer(device=device, checkpoint='facebook/bart-large-cnn')
-    bart_scorer.load(path='bart_score.pth')
+    bart_scorer = BARTScorer(
+        device=device,
+        checkpoint='facebook/bart-large-cnn'
+    )
     score_results = {}
 
     for root, ds, fs in os.walk(gen_dir_name):
